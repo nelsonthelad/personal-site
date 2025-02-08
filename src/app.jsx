@@ -2,7 +2,9 @@ import React from "react";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Card from "./components/Card";
+import profile from "./assets/profile.png";
 import { motion, useScroll, useTransform } from "framer-motion";
+import TypingText from "./components/TypingText";
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -16,7 +18,10 @@ export default function App() {
   const contactY = useTransform(scrollYProgress, [0.7, 0.9], ["50px", "0px"]);
 
   // Add opacity animations for smoother transitions
-  const aboutOpacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
+  const aboutOpacity = useTransform(scrollYProgress, 
+    [0.2, 0.4, 0.6, 0.7],  
+    [0, 1, 1, 0]  
+  );
   const portfolioOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
   const contactOpacity = useTransform(scrollYProgress, [0.7, 0.9], [0, 1]);
 
@@ -28,21 +33,48 @@ export default function App() {
 
       {/* Hero Section - Fixed position */}
       <section className="container mx-auto px-4 py-16 h-screen flex items-center justify-center sticky top-0">
-        <motion.div
-          style={{ x: heroTextX }}
-          className="flex flex-col items-center justify-center space-y-8 text-center"
-        >
-          <h1 className="text-6xl font-bold text-white">Hi, I'm Nelson</h1>
-        </motion.div>
+        <div className="flex flex-col items-center space-y-4">
+          <motion.div
+            style={{ 
+              x: heroTextX,
+              opacity: useTransform(scrollYProgress, [0.6, 0.7], [1, 0])
+            }}
+            className="flex flex-col items-center justify-center text-center"
+          > 
+            <TypingText text="Hi, I'm Nelson" />
+          </motion.div>
+          <motion.div
+            style={{
+              x: heroTextX,
+              opacity: useTransform(scrollYProgress, [0.1, 0.2], [1, 0])
+            }}
+            animate={{ 
+              scale: [1, 1.05, 1]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            <p className="text-xs font-bold opacity-75">[Scroll For More]</p>
+          </motion.div>
+        </div>
       </section>
 
       {/* About Section - Animate from bottom */}
       <section className="container mx-auto px-4 py-16 flex justify-end">
         <motion.div 
-          style={{ y: aboutY, opacity: aboutOpacity }}
+          style={{ 
+            y: aboutY,
+            opacity: aboutOpacity
+          }}
           className="w-1/2 flex flex-col items-center space-y-8"
         >
-          <h2 className="text-3xl font-bold text-white">About Me</h2>
+          <div className="flex flex-row items-center space-x-4">
+            <h2 className="text-3xl font-bold text-white">About Me</h2>
+            <img src={profile} alt="Nelson Daniels" className="w-12 h-12" />
+          </div>
           <div className="grid grid-cols-1 gap-8 w-full">
             <Card
               title="Education"
