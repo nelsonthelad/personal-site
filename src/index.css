@@ -1,9 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer components {
-  .btn-primary {
-    @apply bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors;
-  }
-} 
+@theme {
+  --color-primary: #181C14;
+  --color-secondary: #3C3D37;
+  --color-accent: #697565;
+  --color-text: #ECDFCC;
+}
+
+h1 {
+  color: var(--color-text);
+}
+
+h2 {
+  color: var(--color-text);
+}
+
+p {
+  color: var(--color-text);
+}
+
