@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --font-primary: "Quicksand", serif;
+
   --color-primary: #181C14;
   --color-secondary: #3C3D37;
   --color-accent: #697565;
@@ -9,13 +11,16 @@
 
 h1 {
   color: var(--color-text);
+  font-family: var(--font-primary);
 }
 
 h2 {
   color: var(--color-text);
+  font-family: var(--font-primary);
 }
 
 p {
   color: var(--color-text);
+  font-family: var(--font-primary);
 }
 
