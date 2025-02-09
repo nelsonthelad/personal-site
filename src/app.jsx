@@ -11,11 +11,11 @@ import Carousel from "./components/Carousel";
 export default function App() {
   const { scrollYProgress } = useScroll();
 
-  // Hero text only moves left
-  const heroTextX = useTransform(scrollYProgress, [0, 0.3], ["0%", "-100%"]);
-  
-  // Update about section to only move horizontally
-  const aboutX = useTransform(scrollYProgress, [0.0, 0.3], ["100%", "0%"]);
+  const heroTextY = useTransform(scrollYProgress, [0, 0.3], ["0%", "-100%"]);
+  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
+  // Other sections animate up from bottom
+  const aboutY = useTransform(scrollYProgress, [0.0, 0.3], ["100%", "0%"]);
 
   // Other sections animate up from bottom
   const portfolioY = useTransform(scrollYProgress, [0.5, 0.7], ["50px", "0px"]);
@@ -55,8 +55,8 @@ export default function App() {
         <div className="flex flex-col items-center space-y-4">
           <motion.div
             style={{ 
-              x: heroTextX,
-              opacity: useTransform(scrollYProgress, [0.6, 0.7], [1, 0])
+              y: heroTextY,
+              opacity: heroTextOpacity
             }}
             className="flex flex-col items-center justify-center text-center"
           > 
@@ -64,7 +64,7 @@ export default function App() {
           </motion.div>
           <motion.div
             style={{
-              x: heroTextX,
+              y: heroTextY,
               opacity: useTransform(scrollYProgress, [0.1, 0.2], [1, 0])
             }}
             animate={{ 
@@ -82,20 +82,19 @@ export default function App() {
       </section>
 
       {/* About Section - Sticky header with scrolling cards */}
-      <section className="container mx-auto px-4 py-16 min-h-screen relative">
+      <section className="container mx-auto px-4 py-16 min-h-screen sticky top-0 flex items-center justify-center">
         <motion.div 
           style={{ 
-            x: aboutX,
-            y: 0,
+            y: aboutY,
             opacity: aboutOpacity
           }}
-          className="w-1/2 flex flex-col space-y-8 ml-auto top-4"
+          className="flex flex-col items-center justify-center space-y-8 w-full"
         >
-          <div className="flex flex-row items-center justify-center bg-primary space-x-4 mb-8 w-1/2 mx-auto">
+          <div className="flex flex-row items-center justify-center bg-primary space-x-4 mb-8">
             <h2 className="text-3xl font-bold text-white">About Me</h2>
             <img src={profile} alt="Nelson Daniels" className="w-12 h-12" />
           </div>
-          <div className="grid grid-cols-1 gap-8 w-full">
+          <div className="items-center justify-center">
             <Carousel cards={carouselCards} />
           </div>
         </motion.div>

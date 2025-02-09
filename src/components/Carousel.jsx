@@ -23,7 +23,9 @@ export default function Carousel({ cards }) {
           transition={{ duration: 0.3 }}
           className="w-full"
         >
-          {cards[currentCard]}
+          <div className="w-full h-[400px] overflow-hidden">
+            {cards[currentCard]}
+          </div>
         </motion.div>
       </AnimatePresence>
       

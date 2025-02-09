@@ -43,8 +43,6 @@ const Content = ({ section }) => {
           <hr />
           <li><span>I previously led a robotics team to multiple championship wins.</span></li>
           <hr />
-          <li><span>I thrive in collaborative environments and enjoy solving complex problems.</span></li>
-          <hr />
           <li><span>Whether through coding, designing interactive web applications, or working on hardware innovations, I am always eager to innovate.</span></li>
         </ul>
       </>
