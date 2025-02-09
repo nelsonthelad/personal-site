@@ -5,6 +5,8 @@ import Card from "./components/Card";
 import profile from "./assets/profile.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import TypingText from "./components/TypingText";
+import Content from "./components/Content";
+import Carousel from "./components/Carousel";
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -12,8 +14,10 @@ export default function App() {
   // Hero text only moves left
   const heroTextX = useTransform(scrollYProgress, [0, 0.3], ["0%", "-100%"]);
   
+  // Update about section to only move horizontally
+  const aboutX = useTransform(scrollYProgress, [0.0, 0.3], ["100%", "0%"]);
+
   // Other sections animate up from bottom
-  const aboutY = useTransform(scrollYProgress, [0.2, 0.4], ["50px", "0px"]);
   const portfolioY = useTransform(scrollYProgress, [0.5, 0.7], ["50px", "0px"]);
   const contactY = useTransform(scrollYProgress, [0.7, 0.9], ["50px", "0px"]);
 
@@ -24,6 +28,21 @@ export default function App() {
   );
   const portfolioOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
   const contactOpacity = useTransform(scrollYProgress, [0.7, 0.9], [0, 1]);
+
+  const carouselCards = [
+    <Card
+      title="Education"
+      paragraph={<Content section="education" />}
+    />,
+    <Card
+      title="Technical Skills"
+      paragraph={<Content section="skills" />}
+    />,
+    <Card
+      title="Experience"
+      paragraph={<Content section="experience" />}
+    />
+  ];
 
   return (
     <div className="min-h-screen bg-primary">
@@ -62,32 +81,22 @@ export default function App() {
         </div>
       </section>
 
-      {/* About Section - Animate from bottom */}
-      <section className="container mx-auto px-4 py-16 flex justify-end">
+      {/* About Section - Sticky header with scrolling cards */}
+      <section className="container mx-auto px-4 py-16 min-h-screen relative">
         <motion.div 
           style={{ 
-            y: aboutY,
+            x: aboutX,
+            y: 0,
             opacity: aboutOpacity
           }}
-          className="w-1/2 flex flex-col items-center space-y-8"
+          className="w-1/2 flex flex-col space-y-8 ml-auto top-4"
         >
-          <div className="flex flex-row items-center space-x-4">
+          <div className="flex flex-row items-center justify-center bg-primary space-x-4 mb-8 w-1/2 mx-auto">
             <h2 className="text-3xl font-bold text-white">About Me</h2>
             <img src={profile} alt="Nelson Daniels" className="w-12 h-12" />
           </div>
           <div className="grid grid-cols-1 gap-8 w-full">
-            <Card
-              title="Education"
-              paragraph="I'm Nelson Daniels, a Computer Science student at Carleton University specializing in Artificial Intelligence and Machine Learning. With a CGPA of 10.66, I have a strong foundation in programming, software development, and problem-solving. I enjoy working with microcontrollers, building interactive hardware projects, and developing AI-driven applications."
-            />
-            <Card
-              title="Technical Skills"
-              paragraph="My technical skills span multiple programming languages, including Python, Java, C, and JavaScript, as well as frameworks and tools such as React, Tailwind, Three.js, and OpenStack. I also have hands-on experience with embedded systems, having designed and built projects like a 6-key macro keypad using a Raspberry Pi Pico and CircuitPython."
-            />
-            <Card
-              title="Experience"
-              paragraph="Beyond academics, I work as a bike mechanic, where I hone my troubleshooting and repair skills, and I previously led a robotics team to multiple championship wins. I thrive in collaborative environments and enjoy solving complex problems, whether through coding, designing interactive web applications, or working on hardware innovations."
-            />
+            <Carousel cards={carouselCards} />
           </div>
         </motion.div>
       </section>
@@ -125,7 +134,7 @@ export default function App() {
           <h2 className="text-3xl font-bold text-white">Contact</h2>
           <div className="max-w-2xl w-full">
             <Card
-              title="Get in Touch"
+              title="Contact"
               paragraph="Feel free to reach out to me for any inquiries or opportunities."
             />
           </div>
