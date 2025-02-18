@@ -6,11 +6,11 @@ const transition = {
   ease: [0.7, 0.2, 0.2, 1.0],
 }
 
-const aboutStart = 0.2;
-const aboutEnd = 0.7;
-const portfolioStart = 0.7;
-const portfolioEnd = 0.8;
-const contactStart = 0.8;
+const aboutStart = 0.25;
+const aboutEnd = 0.6;
+const portfolioStart = 0.6;
+const portfolioEnd = 0.9;
+const contactStart = 0.9;
 const contactEnd = 1.0;
 
 const NavBar = () => {
@@ -34,7 +34,7 @@ const NavBar = () => {
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1 }} 
         transition={transition} 
-        className="mx-4 my-4 rounded-lg border border-secondary p-4 hover:border-accent transition duration-300"
+        className="bg-white/10 backdrop-blur-md mx-4 my-4 rounded-lg border border-secondary p-4 hover:border-accent transition duration-300"
       >
         <div className="container mx-auto flex justify-center items-center">
           <div className="space-x-24 px-12">

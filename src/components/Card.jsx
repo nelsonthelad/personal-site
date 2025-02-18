@@ -1,15 +1,22 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Card = ({ title, paragraph }) => {
   return (
-    <div className="bg-transparent max-w-screen-sm max-h-screen-sm">
-      <div className="mx-4 mb-4 rounded-lg border border-secondary p-4 hover:border-accent transition duration-300">
-        <div className="container flex flex-col justify-left">
-          {title && <h1 className="text-white text-2xl font-semibold mb-2 mb-6">{title}</h1>}
-          <div className="text-white text-lg">{paragraph}</div>
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.2 }}
+      className="w-96 h-96"
+    >
+      <div className="h-full rounded-lg border border-secondary bg-white/10 backdrop-blur-md p-4 hover:border-accent">
+        <div className="container flex flex-col">
+          {title && (
+            <h3 className="text-xl font-semibold text-white mb-4">{title}</h3>
+          )}
+          <p className="text-gray-300">{paragraph}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
