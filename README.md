@@ -36,6 +36,13 @@ Welcome to my personal portfolio website! This project showcases my skills, proj
 - `npm run dev`: Starts the development server
 - `npm run build`: Builds the project for production
 - `npm run preview`: Previews the production build locally
-- `npm run lint`: Runs ESLint for code quality checks
 
-https://colorhunt.co/palette/181c143c3d37697565ecdfcc
+## Images
+
+![image](./src/assets/images/site1.png)
+
+![image](./src/assets/images/site2.png)
+
+
+
+
