@@ -19,6 +19,13 @@ const NavBar = () => {
   const [isScrolledPortfolio, setIsScrolledPortfolio] = React.useState(false);
   const [isScrolledContact, setIsScrolledContact] = React.useState(false);
 
+  const scrollToSection = (sectionId) => {
+    const section = document.querySelector(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   React.useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latestValue) => {
       setIsScrolledAbout(latestValue >= aboutStart && latestValue <= aboutEnd);
@@ -39,6 +46,7 @@ const NavBar = () => {
         <div className="container mx-auto flex justify-center items-center">
           <div className="space-x-24 px-12">
             <motion.button 
+              onClick={() => scrollToSection('#about')}
               className={`${
                 isScrolledAbout 
                   ? 'bg-accent text-black' 
@@ -49,6 +57,7 @@ const NavBar = () => {
               <p>About Me</p>
             </motion.button>
             <motion.button 
+              onClick={() => scrollToSection('#portfolio')}
               className={`${
                 isScrolledPortfolio 
                   ? 'bg-accent text-black' 
@@ -59,6 +68,7 @@ const NavBar = () => {
               <p>Portfolio</p>
             </motion.button>
             <motion.button 
+              onClick={() => scrollToSection('#contact')}
               className={`${
                 isScrolledContact 
                   ? 'bg-accent text-black' 

@@ -83,7 +83,7 @@ export default function App() {
       </section>
 
       {/* About Section - Sticky header with scrolling cards */}
-      <section className="container mx-auto px-4 py-16 min-h-screen sticky top-0 flex items-center justify-center">
+      <section id="about" className="container mx-auto px-4 py-16 min-h-screen sticky top-0 flex items-center justify-center">
         <motion.div 
           style={{ 
             y: aboutY,
@@ -113,7 +113,7 @@ export default function App() {
       </section>
 
       {/* Portfolio Section */}
-      <section className="container mx-auto px-4 py-16 sticky min-h-screen top-0 flex items-center justify-center">
+      <section id="portfolio" className="container mx-auto px-4 py-16 sticky min-h-screen top-0 flex items-center justify-center">
         <motion.div 
           style={{ 
             y: portfolioY,
@@ -149,7 +149,7 @@ export default function App() {
       </section>
 
       {/* Contact Section */}
-      <section className="container mx-auto px-4 py-16 sticky top-0 flex items-center justify-center min-h-screen">
+      <section id="contact" className="container mx-auto px-4 py-16 sticky top-0 flex items-center justify-center min-h-screen">
         <motion.div 
           style={{ 
             y: contactY
