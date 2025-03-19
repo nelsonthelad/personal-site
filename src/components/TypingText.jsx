@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 
 const TypingText = ({ text }) => {
@@ -7,6 +7,25 @@ const TypingText = ({ text }) => {
   const displayText = useTransform(rounded, (latest) =>
     text.slice(0, latest)
   );
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    // Initial theme check
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    setTheme(currentTheme);
+
+    // Watch for theme changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'data-theme') {
+          setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const controls = animate(count, text.length, {
@@ -19,7 +38,7 @@ const TypingText = ({ text }) => {
 
   return (
     <div>
-      <motion.span className="text-6xl font-bold text-text font-primary">{displayText}</motion.span>
+      <motion.span className={`text-7xl font-semibold ${theme === 'light' ? 'text-gray-800' : 'text-white'} font-primary text-with-shadow`}>{displayText}</motion.span>
       <CursorBlinker />
     </div>
   );
@@ -28,7 +47,7 @@ const TypingText = ({ text }) => {
 const CursorBlinker = () => {
   return (
     <motion.span
-      className="text-6xl text-black font-primary"
+      className="text-7xl text-teal-400 font-primary"
       initial={{ opacity: 1 }}
       animate={{ opacity: [0, 1, 0] }}
       transition={{ duration: 0.8, repeat: Infinity }}

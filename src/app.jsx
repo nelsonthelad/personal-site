@@ -1,6 +1,6 @@
 // React and third-party imports
-import React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 // Components
 import Card from "./components/Card";
@@ -23,79 +23,72 @@ import emailIcon from "./assets/email.png";
 export default function App() {
   const { scrollYProgress } = useScroll();
 
-  // Hero section animations
-  const heroTextY = useTransform(scrollYProgress, [0, 0.25], ["0%", "0%"]);
-  const heroTextOpacity = useTransform(scrollYProgress, [0.2, 0.25], [1, 0]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15, 0.2], [1, 1, 0]);
 
-  // About section animations
-  const aboutY = useTransform(scrollYProgress, [0.25, 0.6], ["0%", "0%"]);
   const aboutOpacity = useTransform(scrollYProgress, 
-    [0.2, 0.25, 0.45, 0.5],  // Longer display, faster transition
+    [0.15, 0.2, 0.35, 0.4],
     [0, 1, 1, 0]  
   );
 
-  // Portfolio section animations
-  const portfolioY = useTransform(scrollYProgress, [0.6, 0.9], ["0%", "0%"]);
+  const featuredOpacity = useTransform(scrollYProgress, 
+    [0.35, 0.4, 0.55, 0.6],
+    [0, 1, 1, 0]  
+  );
+
   const portfolioOpacity = useTransform(scrollYProgress, 
-    [0.45, 0.5, 0.7, 0.75],  // Longer display, faster transition
+    [0.55, 0.6, 0.75, 0.8],
     [0, 1, 1, 0]  
   );
 
-  // Contact section animations
-  const contactY = useTransform(scrollYProgress, [0.9, 1], ["0%", "0%"]);
-
+  const contactOpacity = useTransform(scrollYProgress, 
+    [0.75, 0.8, 1],
+    [0, 1, 1]  
+  );
+  
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen theme-transition bg-primary`}>
       <ParticleBackground />
-      <div className="h-20 flex justify-center items-center fixed top-0 w-full bg-transparent z-10">
+      <div className="h-20 flex justify-between items-center fixed top-0 w-full bg-transparent">
         <NavBar />
       </div>
 
-      {/* Hero Section - Fixed position */}
+      {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 h-screen flex items-center justify-center sticky top-0">
-        <div className="flex flex-col items-center space-y-4">
+        <AnimatePresence>
           <motion.div
-            style={{ 
-              y: heroTextY,
-              opacity: heroTextOpacity
-            }}
-            className="flex flex-col items-center justify-center text-center"
+            style={{ opacity: heroOpacity }}
+            className="flex flex-col items-center space-y-4"
           > 
-            <TypingText text="Hi, I'm Nelson" />
+            <div className="flex flex-col items-center justify-center text-center">
+              <TypingText text="Hi, I'm Nelson" />
+            </div>
+            <motion.div
+              animate={{ y: [0, 7, 0] }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <p className="text-xs !font-bold !text-teal-400 opacity-90 drop-shadow-lg uppercase tracking-wider">
+                [Scroll For More]
+              </p>
+            </motion.div>
           </motion.div>
-          <motion.div
-            style={{
-              y: heroTextY,
-              opacity: useTransform(scrollYProgress, [0.1, 0.2], [1, 0])
-            }}
-            animate={{ 
-              scale: [1, 1.05, 1]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          >
-            <p className="text-xs font-bold opacity-75">[Scroll For More]</p>
-          </motion.div>
-        </div>
+        </AnimatePresence>
       </section>
 
-      {/* About Section - Sticky header with scrolling cards */}
+      {/* About Section */}
       <section id="about" className="container mx-auto px-4 py-16 min-h-screen sticky top-0 flex items-center justify-center">
         <motion.div 
-          style={{ 
-            y: aboutY,
-            opacity: aboutOpacity
-          }}
+          style={{ opacity: aboutOpacity }}
           className="flex flex-col items-center justify-center space-y-8 w-full"
         >
           <div className="flex flex-row items-center justify-center bg-transparent space-x-4 mb-8">
-            <h2 className="text-3xl font-bold text-white">About Me</h2>
+            <h2 className="!text-white text-3xl font-semibold text-with-shadow">About Me</h2>
             <img src={profile} alt="Nelson Daniels" className="w-12 h-12" />
           </div>
-          <div className="flex flex-row items-center justify-center space-x-4">
+          <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
             <Card
               title="Education"
               paragraph={<Content section="education" />}
@@ -109,37 +102,68 @@ export default function App() {
               paragraph={<Content section="experience" />}
             />
           </div>
+          
+          {/* Call to action */}
+          <motion.div 
+            className="mt-8 bg-teal-400/20 backdrop-blur-md p-4 rounded-lg border border-teal-400 max-w-lg text-center shadow-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <p className="text-white text-lg font-medium text-with-shadow">
+              Currently available for new opportunities and freelance projects
+            </p>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Featured Project Section */}
+      <section 
+        id="featured"
+        className="container mx-auto px-4 py-16 sticky top-0 flex items-center justify-center min-h-screen"
+      >
+        <motion.div 
+          style={{ opacity: featuredOpacity }}
+          className="flex flex-col items-center space-y-8 w-full max-w-4xl"
+        >
+          <h2 className="!text-white text-3xl font-semibold text-with-shadow">Featured Work</h2>
+          <ProjectCard
+            title="Study.ai"
+            description="An AI-powered study assistant that helps students learn more effectively by utilizing advanced natural language processing. The application generates practice questions, provides feedback, and adapts to individual learning styles."
+            technologies={["Python", "CTkinter", "OpenAI API"]}
+            imageUrl={studyai}
+            projectUrl="https://github.com/nelsonthelad/study.ai"
+            isFeatured={true}
+          />
         </motion.div>
       </section>
 
       {/* Portfolio Section */}
       <section id="portfolio" className="container mx-auto px-4 py-16 sticky min-h-screen top-0 flex items-center justify-center">
         <motion.div 
-          style={{ 
-            y: portfolioY,
-            opacity: portfolioOpacity
-          }}
+          style={{ opacity: portfolioOpacity }}
           className="flex flex-col items-center space-y-8"
         >
-          <h2 className="text-3xl font-bold text-white">Portfolio</h2>
+          <h2 className="!text-white text-3xl font-semibold text-with-shadow">Portfolio</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ProjectCard
               title="Study.ai"
-              description="An AI-powered study assistant that helps students learn more effectively"
+              description="An AI-powered study assistant that helps students learn more effectively through adaptive learning techniques."
               technologies={["Python", "CTkinter", "OpenAI API"]}
               imageUrl={studyai}
               projectUrl="https://github.com/nelsonthelad/study.ai"
+              isFeatured={true}
             />
             <ProjectCard
               title="AceBot"
-              description="Chrome Extention for AI-powered quiz solving"
+              description="Chrome Extension for AI-powered quiz solving. Analyzes questions and provides intelligent answers based on course materials."
               technologies={["JavaScript", "HTML", "CSS", "OpenAI API"]}
               imageUrl={acebot}
               projectUrl="https://github.com/nelsonthelad/AceBot"
             />
             <ProjectCard
               title="Anatomics"
-              description="3D visualization tool for workout planning"
+              description="3D visualization tool for workout planning with interactive muscle targeting and exercise recommendations."
               technologies={["React", "Node.js", "Three.js", "Tailwind", "Vite", ]}
               imageUrl={anatomics}
               projectUrl="https://github.com/Goshenko/Anatomics"
@@ -151,15 +175,13 @@ export default function App() {
       {/* Contact Section */}
       <section id="contact" className="container mx-auto px-4 py-16 sticky top-0 flex items-center justify-center min-h-screen">
         <motion.div 
-          style={{ 
-            y: contactY
-          }}
+          style={{ opacity: contactOpacity }}
           className="flex flex-col items-center space-y-8"
         >
-          <h2 className="text-3xl font-bold text-white">Contact</h2>
-          <div className="max-w-2xl w-full bg-white/10 backdrop-blur-md rounded-lg p-8">
+          <h2 className="!text-white text-3xl font-semibold text-with-shadow">Contact</h2>
+          <div className="max-w-2xl w-full bg-black/40 backdrop-blur-md rounded-lg p-8 shadow-lg">
             <div className="flex flex-col items-center space-y-6">
-              <p className="text-lg text-center text-white/90">
+              <p className="text-lg text-center !text-white/90">
                 Let's connect! I'm always open to discussing new opportunities and interesting projects.
               </p>
               
